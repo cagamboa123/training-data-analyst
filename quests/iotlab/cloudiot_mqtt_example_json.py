@@ -144,11 +144,7 @@ def main():
     # this device. For Google Cloud IoT Core, it must be in the format below.
     client = mqtt.Client(
             client_id=('projects/{}/locations/{}/registries/{}/devices/{}'
-                       .format(
-                               args.project_id,
-                               args.cloud_region,
-                               args.registry_id,
-                               args.device_id)))
+                       .format( args.project_id, args.cloud_region,args.registry_id,args.device_id)))
 
     # With Google Cloud IoT Core, the username field is ignored, and the
     # password field is used to transmit a JWT to authorize the device.
@@ -169,6 +165,7 @@ def main():
 
     # Connect to the Google MQTT bridge.
     client.connect(args.mqtt_bridge_hostname, args.mqtt_bridge_port)
+
 
     # Start the network loop.
     client.loop_start()
@@ -192,10 +189,10 @@ def main():
     for i in range(1, args.num_messages + 1):
 
         simulated_temp = simulated_temp + temperature_trend * random.normalvariate(0.01,0.005)
-        payload = {"timestamp": int(time.time()), "device": args.device_id, "temperature": simulated_temp}
+        payload = {"timestamp": time.asctime( time.localtime(time.time())), "device": args.device_id, "temperature": simulated_temp}
         print('Publishing message {} of {}: \'{}\''.format(
                 i, args.num_messages, payload))
-        jsonpayload =  json.dumps(payload,indent=4)
+        jsonpayload =  json.dumps(payload)
         # Publish "jsonpayload" to the MQTT topic. qos=1 means at least once
         # delivery. Cloud IoT Core also supports qos=0 for at most once
         # delivery.
@@ -210,4 +207,5 @@ def main():
 
 
 if __name__ == '__main__':
+    main()
     main()
