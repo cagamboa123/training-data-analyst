@@ -26,8 +26,7 @@ import datetime
 import os
 import time
 import json
-
-import jwt
+#import jwt
 import paho.mqtt.client as mqtt
 
 import random
